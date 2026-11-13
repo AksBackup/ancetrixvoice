@@ -1,0 +1,10 @@
+node_modules/
+src.zip
+.env.local
+.env.local.example
+.env
+.next/
+src2/
+src3/
+.zip
+srcoriginal/
