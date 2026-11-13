@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '../../../store'
@@ -30,7 +30,16 @@ const POLL_INTERVAL_MS = 3000
 
 type Step = 'form' | 'awaiting-verification' | 'confirming-link'
 
+// useSearchParams() must be below a Suspense boundary during static prerendering.
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className={styles.page}><div className={styles.col}>Loading registration…</div></div>}>
+      <RegisterPageContent />
+    </Suspense>
+  )
+}
+
+function RegisterPageContent() {
   const router = useRouter()
   const params = useSearchParams()
   const cameFromEmailLink = params.get('verified') === '1'
